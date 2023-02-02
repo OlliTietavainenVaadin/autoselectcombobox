@@ -17,7 +17,7 @@ public class ComboBoxValidation extends AbstractDemo {
 
     @Override
     protected void initView() {
-        personService = new PersonService(300);
+        personService = new PersonService(1);
         addComboValidation();
     }
 
@@ -47,7 +47,10 @@ public class ComboBoxValidation extends AbstractDemo {
         asComboBox.setHelperText("Custom Web Component. Auto select if 1 option. Allow custom values + run validation against options.");
         asComboBox.setDataProvider(dataProvider);
         asComboBox.setItemLabelGenerator(Person::toString);
-
+        asComboBox.setClearButtonVisible(true);
+        asComboBox.addValueChangeListener(e -> {
+            System.out.println("asComboBox value change to " + e.getValue());
+        });
         Binder<TestBean> binder = new Binder<>();
         binder.forField(comboBox)
                 .asRequired(Validator.from(personService::exists, "Please select one of the available values"))
@@ -57,7 +60,18 @@ public class ComboBoxValidation extends AbstractDemo {
         binder.setBean(item);
         // end-source-example
 
-        addCard("ComboBox with autoselect and validation", comboBoxDefault, comboBox, asComboBox, new Anchor("#", "Focus target for testing"));
+        AutoSelectComboBox<Person> asComboBox2 = new AutoSelectComboBox<>("2 People");
+        asComboBox2.setHelperText("Custom Web Component. Auto select if 1 option. Allow custom values + run validation against options.");
+        asComboBox2.setItems(new Person(1, "first", "last", 22,
+        null, "123"), new Person(2, "firs2t", "l2ast", 32,
+                null, "1223"));
+        asComboBox2.setClearButtonVisible(true);
+        asComboBox2.setItemLabelGenerator(Person::toString);
+        asComboBox2.addValueChangeListener(e -> {
+            System.out.println("asComboBox2 value change to " + e.getValue());
+        });
+
+        addCard("ComboBox with autoselect and validation", comboBoxDefault, comboBox, asComboBox, asComboBox2, new Anchor("#", "Focus target for testing"));
     }
 
     private Person buildEmptyPerson() {

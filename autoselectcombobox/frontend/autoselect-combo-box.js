@@ -12,6 +12,7 @@ class AutoSelectComboBoxElement extends ComboBoxElement {
 
   ready() {
     super.ready();
+    console.log('---------ready');
     this.allowCustomValue = true;
     this.addEventListener('custom-value-set', this._onCustomValueSet);
     this.addEventListener('value-changed', this._onValueSet);
